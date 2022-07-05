@@ -1,0 +1,9 @@
+mkdir
+tar
+rm
+curl
+sed
+grep
+git
+sort
+cut
