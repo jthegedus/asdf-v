@@ -11,7 +11,6 @@ allowing you to pin `v` versions for each V project.
 
 - [Dependencies](#dependencies)
 - [Install](#install)
-- [Why?](#why)
 - [Contributing](#contributing)
 - [License](#license)
 
