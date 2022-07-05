@@ -31,7 +31,7 @@ function list_github_tags() {
 	git ls-remote --tags --refs "$GH_REPO" |
 		grep -o 'refs/tags/.*' |
 		cut -d/ -f3- |
-		sed 's/^v//' # NOTE: You might want to adapt this sed to remove non-version strings from tags
+		sed 's|^v||' # NOTE: You might want to adapt this sed to remove non-version strings from tags
 }
 
 function list_all_versions() {
@@ -46,9 +46,8 @@ function latest_stable_version() {
 	local url
 	url="$GH_REPO/releases/latest"
 
-	curl -sI "$url" |
-		grep -o "location: .*\n" |
-		awk -F/ '{print $NF}'
+	curl -sI "$GH_REPO/releases/latest" |
+		sed -n -e 's|^location: '"$GH_REPO"'/releases/tag/||p'
 }
 
 function download_release() {
