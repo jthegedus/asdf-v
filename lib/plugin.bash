@@ -43,7 +43,10 @@ function latest_stable_version() {
 	# follow the redirect with curl, get the actual resolved URL for latest release
 	#   grep result in quotes: "location: https://github.com/vlang/v/releases/tag/0.3"
 	# get the release version # from the URL (item after last "/")
-	curl -sI "$GH_REPO/releases/latest" |
+	local url
+	url="$GH_REPO/releases/latest"
+
+	curl -sI "$url" |
 		grep -o "location: .*\n" |
 		awk -F/ '{print $NF}'
 }
