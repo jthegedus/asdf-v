@@ -39,6 +39,10 @@ function list_all_versions() {
 }
 
 function latest_stable_version() {
+	# Use the GitHub Release matching "latest" as the latest stable version
+	# follow the redirect with curl, get the actual resolved URL for latest release
+	#   grep result in quotes: "location: https://github.com/vlang/v/releases/tag/0.3"
+	# get the release version # from the URL (item after last "/")
 	curl -sI "$GH_REPO/releases/latest" |
 		grep -o "location: .*\n" |
 		awk -F/ '{print $NF}'
