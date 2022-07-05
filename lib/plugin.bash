@@ -38,6 +38,12 @@ function list_all_versions() {
 	list_github_tags
 }
 
+function latest_stable_version() {
+	curl -sI "$GH_REPO/releases/latest" |
+		grep -o "location: .*\n" |
+		awk -F/ '{print $NF}'
+}
+
 function download_release() {
 	local version filename url
 	version="$1"
