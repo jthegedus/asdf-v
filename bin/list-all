@@ -8,4 +8,4 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 # shellcheck source=../lib/plugin.bash
 . "${plugin_dir}/lib/plugin.bash"
 
-list_all_versions | sort_versions | xargs -IVERSION printf "%s\\n" VERSION
+list_all_versions | sort_versions | xargs -IPLUGIN bash -c "printf \"%s\\n\" PLUGIN
