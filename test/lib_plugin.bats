@@ -5,9 +5,9 @@ load test_setup
 @test "sort_versions sorts a list of versions" {
 	input=$(<"$BATS_TEST_DIRNAME/fixture_sort_versions_input.txt")
 	expected=$(<"$BATS_TEST_DIRNAME/fixture_sort_versions_expected.txt")
-	run sort_versions "$input"
+	output=$(cat $BATS_TEST_DIRNAME/fixture_sort_versions_input.txt | sort_versions)
 
-	[ "$status" -eq 0 ]
+	[ "$?" -eq 0 ]
 	[ "$output" = "$expected" ]
 }
 
