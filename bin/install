@@ -12,7 +12,7 @@ if [ "$ASDF_INSTALL_TYPE" != "version" ]; then
 	fail "asdf-$TOOL_NAME supports release installs only. See asdf list all $TOOL_NAME for a list of supported versions."
 fi
 
-echo "version: $ASDF_INSTALL_VERSION"
+echo "version: $ASDF_INSTALL_VERSION|"
 echo "repo: $GH_REPO"
 echo "install path: $ASDF_INSTALL_PATH"
 mkdir -p "$ASDF_INSTALL_PATH"
