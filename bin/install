@@ -12,9 +12,9 @@ if [ "$ASDF_INSTALL_TYPE" != "version" ]; then
 	fail "asdf-$TOOL_NAME supports release installs only. See asdf list all $TOOL_NAME for a list of supported versions."
 fi
 
-echo "$ASDF_INSTALL_VERSION"
-echo "$GH_REPO"
-echo "$ASDF_INSTALL_PATH"
+echo "version: $ASDF_INSTALL_VERSION"
+echo "repo: $GH_REPO"
+echo "install path: $ASDF_INSTALL_PATH"
 mkdir -p "$ASDF_INSTALL_PATH"
 git clone --depth 1 --branch "$ASDF_INSTALL_VERSION" "$GH_REPO" "$ASDF_INSTALL_PATH"
 
