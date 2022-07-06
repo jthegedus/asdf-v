@@ -15,7 +15,7 @@ fi
 (
 	printf "* Downloading %s@%s...\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
 	mkdir -p "$ASDF_DOWNLOAD_PATH"
-	git clone --quiet --depth 1 --branch "$ASDF_INSTALL_VERSION" "$GH_REPO" "$ASDF_DOWNLOAD_PATH" || fail "Could not download $GH_REPO"
+	git clone --quiet -c advice.detachedHead=false --depth=1 --branch="$ASDF_INSTALL_VERSION" "$GH_REPO" "$ASDF_DOWNLOAD_PATH" || fail "Could not download $GH_REPO"
 	printf "* Downloaded to %s\\n" "$ASDF_DOWNLOAD_PATH"
 
 	printf "* Installing %s@%s...\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
@@ -24,16 +24,16 @@ fi
 	rm -rf $ASDF_DOWNLOAD_PATH
 	printf "* Installed to %s\\n" "$ASDF_INSTALL_PATH"
 
-	printf "* Compiling %s@%s from source...\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
+	printf "* Building %s@%s from source...\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
 	make --quiet -C "$ASDF_INSTALL_PATH" || fail "Could not compile $TOOL_NAME@$ASDF_INSTALL_VERSION"
-	printf "* Compiled\\n"
+	printf "* Built\\n"
 
 	printf "* Symlinking binary to bin/ dir\\n"
 	mkdir -p "$ASDF_INSTALL_PATH/bin"
 	ln -s "$ASDF_INSTALL_PATH/$TOOL_NAME" "$ASDF_INSTALL_PATH/bin/$TOOL_NAME"
 	# mv "$ASDF_INSTALL_PATH/$TOOL_NAME" "$ASDF_INSTALL_PATH/bin/$TOOL_NAME"
 
-	printf "* Testing %s@%s...\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
+	printf "* Testing %s@%s\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
 	tool_cmd="$(printf "%s\\n" "$TOOL_TEST" | cut -d' ' -f1)"
 	test -x "$ASDF_INSTALL_PATH/bin/$tool_cmd" || fail "Expected $ASDF_INSTALL_PATH/bin/$tool_cmd to be executable."
 	printf "* Test successful!\\n"
