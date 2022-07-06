@@ -8,6 +8,8 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 # shellcheck source=../lib/utils.bash
 . "${plugin_dir}/lib/utils.bash"
 
+# TODO: Adapt this to proper extension and adapt extracting strategy.
+# TODO: check dependencies
 function install_version() {
 	local install_type version install_path
 	install_type="$1"
@@ -27,8 +29,9 @@ function install_version() {
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
 
 		printf "%s %s installation was successful!\\n" "$TOOL_NAME" "$version"
-	) || (
-		rm -rf "$install_path"
-		fail "An error ocurred while installing $TOOL_NAME $version."
 	)
+	# || (
+	# 	rm -rf "$install_path"
+	# 	fail "An error ocurred while installing $TOOL_NAME $version."
+	# )
 }
