@@ -23,8 +23,6 @@ function check_dependencies() {
 		printf "* Missing dependencies! These are hard requirements to install asdf-%s.\\n" "$TOOL_NAME"
 		printf "* ${missing_dependencies[@]}\\n"
 		printf "* You should install the listed dependencies before continuing.\\n"
-	else
-		printf "* All dependencies found on system!\\n"
 	fi
 }
 
