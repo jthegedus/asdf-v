@@ -16,5 +16,4 @@ fi
 
 # use GitHub releases latest API and follow redirect to resolve final version
 curl "${curl_opts[@]}" "$GH_REPO/releases/latest" |
-	sed -n -e 's|^location: '"$GH_REPO"'/releases/tag/||p' |
-	xargs echo # asdf_allow: echo
+	sed -n -e 's|^location: '"$GH_REPO"'/releases/tag/||p'
