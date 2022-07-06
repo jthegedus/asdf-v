@@ -16,7 +16,7 @@ fi
 	printf "* Downloading %s@%s\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
 	mkdir -p "$ASDF_INSTALL_PATH"
 	git clone --quiet -c advice.detachedHead=false --depth=1 --branch="$ASDF_INSTALL_VERSION" "$GH_REPO" "$ASDF_INSTALL_PATH" || fail "Could not download $GH_REPO"
-	printf "* Downloaded to %s\\n" "$ASDF_DOWNLOAD_PATH"
+	printf "* Downloaded to %s\\n" "$ASDF_INSTALL_PATH"
 
 	printf "* Building %s@%s from source\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
 	make --quiet -C "$ASDF_INSTALL_PATH" || fail "Could not compile $TOOL_NAME@$ASDF_INSTALL_VERSION"
