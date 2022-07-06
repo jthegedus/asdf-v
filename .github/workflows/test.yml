@@ -19,4 +19,4 @@ jobs:
       - name: asdf plugin test
         uses: asdf-vm/actions/plugin-test@v1
         with:
-          command: asdf --help
+          command: v --help
