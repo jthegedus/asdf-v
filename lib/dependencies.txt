@@ -7,3 +7,4 @@ grep
 git
 sort
 cut
+make

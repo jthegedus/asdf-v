@@ -5,7 +5,8 @@ set -euo pipefail
 current_script_path=${BASH_SOURCE[0]}
 plugin_dir=$(dirname "$(dirname "$current_script_path")")
 
-# shellcheck source=../lib/latest-stable.bash
-. "${plugin_dir}/lib/latest-stable.bash"
+# shellcheck source=../lib/utils.bash
+. "${plugin_dir}/lib/utils.bash"
 
-latest_stable_version
+curl -sI "$GH_REPO/releases/latest" |
+	sed -n -e 's|^location: '"$GH_REPO"'/releases/tag/||p'

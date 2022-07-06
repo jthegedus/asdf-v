@@ -5,7 +5,26 @@ set -euo pipefail
 current_script_path=${BASH_SOURCE[0]}
 plugin_dir=$(dirname "$(dirname "$current_script_path")")
 
-# shellcheck source=../lib/install.bash
-. "${plugin_dir}/lib/install.bash"
+# shellcheck source=../lib/utils.bash
+. "${plugin_dir}/lib/utils.bash"
 
-install_version "$ASDF_INSTALL_TYPE" "$ASDF_INSTALL_VERSION" "$ASDF_INSTALL_PATH"
+if [ "$ASDF_INSTALL_TYPE" != "version" ]; then
+	fail "asdf-$TOOL_NAME supports release installs only. See asdf list all $TOOL_NAME for a list of supported versions."
+fi
+
+(
+	printf "* Creating dir %s\\n" "$ASDF_INSTALL_PATH"
+	mkdir -p "$ASDF_INSTALL_PATH"
+	printf "* Moving download to install path. %s > %s\\n" "$ASDF_DOWNLOAD_PATH" "$ASDF_INSTALL_PATH"
+	cp -r "$ASDF_DOWNLOAD_PATH"/* "$ASDF_INSTALL_PATH"
+
+	# local tool_cmd
+	# tool_cmd="$(printf "%s\\n" "$TOOL_TEST" | cut -d' ' -f1)"
+	# test -x "$ASDF_INSTALL_PATH/$tool_cmd" || fail "Expected $ASDF_INSTALL_PATH/$tool_cmd to be executable."
+
+	printf "%s %s installation was successful!\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
+)
+# || (
+# 	rm -rf "$ASDF_INSTALL_PATH"
+# 	fail "An error ocurred while installing $TOOL_NAME $ASDF_INSTALL_VERSION."
+# )
