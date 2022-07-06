@@ -1,10 +1,11 @@
 mkdir
-tar
+git
+make
+ln
 rm
 curl
 sed
 grep
-git
 sort
 cut
-make
+awk
