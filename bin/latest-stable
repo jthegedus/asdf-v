@@ -8,5 +8,11 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 # shellcheck source=../lib/utils.bash
 . "${plugin_dir}/lib/utils.bash"
 
-curl -sI "$GH_REPO/releases/latest" |
+curl_opts=(-sI)
+
+if [ -n "${GITHUB_API_TOKEN:-}" ]; then
+	curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
+fi
+
+curl "${curl_opts[@]}" "$GH_REPO/releases/latest" |
 	sed -n -e 's|^location: '"$GH_REPO"'/releases/tag/||p'

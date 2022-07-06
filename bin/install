@@ -13,16 +13,31 @@ if [ "$ASDF_INSTALL_TYPE" != "version" ]; then
 fi
 
 (
-	printf "* Creating dir %s\\n" "$ASDF_INSTALL_PATH"
+	printf "* Downloading %s@%s...\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
+	mkdir -p "$ASDF_DOWNLOAD_PATH"
+	git clone --depth 1 --branch "$ASDF_INSTALL_VERSION" "$GH_REPO" "$ASDF_DOWNLOAD_PATH" || fail "Could not download $GH_REPO"
+	printf "* Downloaded to %s\\n" "$ASDF_DOWNLOAD_PATH"
+
+	printf "* Installing %s@%s...\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
 	mkdir -p "$ASDF_INSTALL_PATH"
-	printf "* Moving download to install path. %s > %s\\n" "$ASDF_DOWNLOAD_PATH" "$ASDF_INSTALL_PATH"
 	cp -r "$ASDF_DOWNLOAD_PATH"/* "$ASDF_INSTALL_PATH"
+	rm -rf $ASDF_DOWNLOAD_PATH
+	printf "* Installed to %s\\n" "$ASDF_INSTALL_PATH"
 
-	# local tool_cmd
-	# tool_cmd="$(printf "%s\\n" "$TOOL_TEST" | cut -d' ' -f1)"
-	# test -x "$ASDF_INSTALL_PATH/$tool_cmd" || fail "Expected $ASDF_INSTALL_PATH/$tool_cmd to be executable."
+	printf "* Compiling %s@%s from source...\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
+	make -C "$ASDF_INSTALL_PATH" || fail "Could not compile $TOOL_NAME@$ASDF_INSTALL_VERSION"
+	printf "* Compiled\\n"
 
-	printf "%s %s installation was successful!\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
+	printf "* Moving binary to bin/ dir\\n"
+	mkdir -p "$ASDF_INSTALL_PATH/bin"
+	mv "$ASDF_INSTALL_PATH/$TOOL_NAME" "$ASDF_INSTALL_PATH/bin/$TOOL_NAME"
+
+	printf "* Testing %s@%s...\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
+	local tool_cmd
+	tool_cmd="$(printf "%s\\n" "$TOOL_TEST" | cut -d' ' -f1)"
+	test -x "$ASDF_INSTALL_PATH/bin/$tool_cmd" || fail "Expected $ASDF_INSTALL_PATH/bin/$tool_cmd to be executable."
+	printf "* Test successful!\\n"
+	printf "* Complete!\\n"
 )
 # || (
 # 	rm -rf "$ASDF_INSTALL_PATH"
