@@ -12,8 +12,11 @@ if [ "$ASDF_INSTALL_TYPE" != "version" ]; then
 	fail "asdf-$TOOL_NAME supports release installs only. See asdf list all $TOOL_NAME for a list of supported versions."
 fi
 
+echo "$ASDF_INSTALL_VERSION"
+echo "$GH_REPO"
+echo "$ASDF_INSTALL_PATH"
 mkdir -p "$ASDF_INSTALL_PATH"
-git clone -c advice.detachedHead=false --depth 1 --branch "$ASDF_INSTALL_VERSION" "$GH_REPO" "$ASDF_INSTALL_PATH" || fail "Could not download $GH_REPO"
+git clone --depth 1 --branch "$ASDF_INSTALL_VERSION" "$GH_REPO" "$ASDF_INSTALL_PATH"
 
 # (
 # 	# TODO(jthegedus): "asdf install v latest" does not work
@@ -26,7 +29,7 @@ git clone -c advice.detachedHead=false --depth 1 --branch "$ASDF_INSTALL_VERSION
 # 	# .sdf-v: An error ocurred while installing v 0.3
 # 	printf "* Downloading %s@%s\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
 # 	mkdir -p "$ASDF_INSTALL_PATH"
-# 	git clone -c advice.detachedHead=false --depth 1 --branch "$ASDF_INSTALL_VERSION" "$GH_REPO" "$ASDF_INSTALL_PATH" || fail "Could not download $GH_REPO"
+# 	git clone --quiet -c advice.detachedHead=false --depth 1 --branch "$ASDF_INSTALL_VERSION" "$GH_REPO" "$ASDF_INSTALL_PATH" || fail "Could not download $GH_REPO"
 # 	printf "* Downloaded to %s\\n" "$ASDF_INSTALL_PATH"
 
 # 	printf "* Building %s@%s from source\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
