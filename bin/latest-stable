@@ -18,5 +18,5 @@ fi
 # use GitHub releases latest API and follow redirect to resolve final version
 curl "${curl_opts[@]}" "$GH_REPO/releases/latest" |
 	sed -n -e "s|^location: $GH_REPO/releases/tag/||p" |
-	sed -n -e "s|[[:blank:]]*$||p"
+	sed -n -e "s|^M||p"
 # echo "$GH_REPO"
