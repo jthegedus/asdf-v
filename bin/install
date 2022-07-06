@@ -20,18 +20,16 @@ fi
 
 	printf "* Building %s@%s from source\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
 	make --quiet -C "$ASDF_INSTALL_PATH" || fail "Could not compile $TOOL_NAME@$ASDF_INSTALL_VERSION"
-	printf "* Built\\n"
 
-	printf "* Symlinking binary to bin/ dir\\n"
+	printf "* Symlinking binary to %s/bin/%s dir\\n" "$ASDF_INSTALL_PATH" "$TOOL_NAME"
 	mkdir -p "$ASDF_INSTALL_PATH/bin"
 	ln -s "$ASDF_INSTALL_PATH/$TOOL_NAME" "$ASDF_INSTALL_PATH/bin/$TOOL_NAME"
 	# mv "$ASDF_INSTALL_PATH/$TOOL_NAME" "$ASDF_INSTALL_PATH/bin/$TOOL_NAME"
 
-	printf "* Testing %s@%s\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
+	printf "* Testing if %s@%s is executable\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
 	tool_cmd="$(printf "%s\\n" "$TOOL_TEST" | cut -d' ' -f1)"
 	test -x "$ASDF_INSTALL_PATH/bin/$tool_cmd" || fail "Expected $ASDF_INSTALL_PATH/bin/$tool_cmd to be executable."
-	printf "* Test successful!\\n"
-	printf "* Complete!\\n"
+	printf "* Success!\\n"
 ) || (
 	rm -rf "$ASDF_INSTALL_PATH"
 	fail "An error ocurred while installing $TOOL_NAME $ASDF_INSTALL_VERSION."
