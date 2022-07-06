@@ -33,7 +33,6 @@ fi
 	mv "$ASDF_INSTALL_PATH/$TOOL_NAME" "$ASDF_INSTALL_PATH/bin/$TOOL_NAME"
 
 	printf "* Testing %s@%s...\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
-	local tool_cmd
 	tool_cmd="$(printf "%s\\n" "$TOOL_TEST" | cut -d' ' -f1)"
 	test -x "$ASDF_INSTALL_PATH/bin/$tool_cmd" || fail "Expected $ASDF_INSTALL_PATH/bin/$tool_cmd to be executable."
 	printf "* Test successful!\\n"
