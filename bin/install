@@ -29,7 +29,7 @@ fi
 	printf "* Testing if %s@%s is executable\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
 	tool_cmd="$(printf "%s\\n" "$TOOL_TEST" | cut -d' ' -f1)"
 	test -x "$ASDF_INSTALL_PATH/bin/$tool_cmd" || fail "Expected $ASDF_INSTALL_PATH/bin/$tool_cmd to be executable."
-	printf "* Success!\\n"
+	printf "* Success! %s@%s is ready for use.\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
 ) || (
 	rm -rf "$ASDF_INSTALL_PATH"
 	fail "An error ocurred while installing $TOOL_NAME $ASDF_INSTALL_VERSION."
