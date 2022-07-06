@@ -13,6 +13,7 @@ if [ "$ASDF_INSTALL_TYPE" != "version" ]; then
 fi
 
 echo "version: $ASDF_INSTALL_VERSION|"
+echo "version: $($ASDF_INSTALL_VERSION | xargs echo)"
 echo "repo: $GH_REPO"
 echo "install path: $ASDF_INSTALL_PATH"
 mkdir -p "$ASDF_INSTALL_PATH"
