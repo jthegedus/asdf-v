@@ -14,5 +14,6 @@ if [ -n "${GITHUB_API_TOKEN:-}" ]; then
 	curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
 fi
 
+# use GitHub releases latest API and follow redirect to resolve final version
 curl "${curl_opts[@]}" "$GH_REPO/releases/latest" |
 	sed -n -e 's|^location: '"$GH_REPO"'/releases/tag/||p'
