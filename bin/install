@@ -9,19 +9,34 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 . "${plugin_dir}/lib/envs.bash"
 
 function fail() {
-	printf "asdf-%s: %s\\n" "$TOOL_NAME" "$*"
+	printf "* ERROR: asdf-%s %s\\n" "$TOOL_NAME" "$*"
 	exit 1
 }
 
+# ref installs not supported
 if [ "$ASDF_INSTALL_TYPE" != "version" ]; then
 	fail "asdf-$TOOL_NAME supports release installs only. See asdf list all $TOOL_NAME for a list of supported versions."
 fi
 
-echo "version to install: $ASDF_INSTALL_VERSION"
-if [ "$ASDF_INSTALL_VERSION" == "" ]; then
-	fail "asdf-$TOOL_NAME requires a version to be specified. See asdf list all $TOOL_NAME for a list of supported versions."
+# ensure version is in list-all versions
+if ! printf "%s\\n" $(asdf list all v) | grep -q "^$ASDF_INSTALL_VERSION$"; then
+	fail "version \"$ASDF_INSTALL_VERSION\" not supported. \"asdf list all $TOOL_NAME\" will list available versions."
 fi
 
+# Warn if user attempts to install a version that the plugin might not support
+WARN_ABOUT_SUPPORTED_VERSION="no"
+if [[ $ASDF_INSTALL_VERSION =~ "weekly" ]] && awk "BEGIN {exit !($ASDF_INSTALL_VERSION < $MIN_SUPPORTED_WEEKLY_VERSION)}"; then
+	WARN_ABOUT_SUPPORTED_VERSION="yes"
+fi
+if [[ ! $ASDF_INSTALL_VERSION =~ "weekly" ]] && awk "BEGIN {exit !($ASDF_INSTALL_VERSION < $MIN_SUPPORTED_VERSION)}"; then
+	WARN_ABOUT_SUPPORTED_VERSION="yes"
+fi
+if [ $WARN_ABOUT_SUPPORTED_VERSION == "yes" ]; then
+	printf "* WARNING asdf-%s was developed for versions \"%s\" or \"%s\" and later.\\n" "$TOOL_NAME" "$MIN_SUPPORTED_VERSION" "$MIN_SUPPORTED_WEEKLY_VERSION"
+	printf "          Versions before this are not guaranteed to work.\\n"
+fi
+
+# download & install
 (
 	printf "* Downloading %s@%s\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
 	mkdir -p "$ASDF_INSTALL_PATH"
