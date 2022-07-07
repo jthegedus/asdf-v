@@ -1,5 +1,7 @@
 #!/usr/bin/env bats
 
+load test_setup
+
 # NOTE: Test to ensure cross-compatibility.
 #       Taken from asdf core repo test file of the same name.
 #       It may be out of date, so check periodically to see if there are new additions to banned_commands or banned_commands_regex.
@@ -51,6 +53,14 @@ banned_commands_regex=(
 	# corresponding function.
 	'\basdf '
 )
+
+setup() {
+	setup_asdf_dir
+}
+
+teardown() {
+	clean_asdf_dir
+}
 
 @test "banned commands are not found in source code" {
 	# Assert command is not used in the lib and bin dirs

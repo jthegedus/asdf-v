@@ -16,7 +16,7 @@ function fail() {
 # TODO(jthegedus): support ref installs
 # ref installs not supported
 if [ "$ASDF_INSTALL_TYPE" != "version" ]; then
-	fail "asdf-$TOOL_NAME supports release installs only. See asdf list all $TOOL_NAME for a list of supported versions."
+	fail "supports release installs only. See \"asdf list all $TOOL_NAME\" for a list of supported versions."
 fi
 
 # validate version(non-ref) is in list-all versions
