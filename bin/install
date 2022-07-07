@@ -13,27 +13,32 @@ function fail() {
 	exit 1
 }
 
+# TODO(jthegedus): support ref installs
 # ref installs not supported
 if [ "$ASDF_INSTALL_TYPE" != "version" ]; then
 	fail "asdf-$TOOL_NAME supports release installs only. See asdf list all $TOOL_NAME for a list of supported versions."
 fi
 
-# ensure version is in list-all versions
-if ! printf "%s\\n" $(asdf list all v) | grep -q "^$ASDF_INSTALL_VERSION$"; then
-	fail "version \"$ASDF_INSTALL_VERSION\" not supported. \"asdf list all $TOOL_NAME\" will list available versions."
-fi
+# validate version(non-ref) is in list-all versions
+if [ "$ASDF_INSTALL_TYPE" == "version" ]; then
+	if ! printf "%s\\n" $(asdf list all v) | grep -q "^$ASDF_INSTALL_VERSION$"; then
+		fail "version \"$ASDF_INSTALL_VERSION\" not supported. \"asdf list all $TOOL_NAME\" will list available versions."
+	fi
 
-# Warn if user attempts to install a version that the plugin might not support
-WARN_ABOUT_SUPPORTED_VERSION="no"
-if [[ $ASDF_INSTALL_VERSION =~ "weekly" ]] && awk "BEGIN {exit !($ASDF_INSTALL_VERSION < $MIN_SUPPORTED_WEEKLY_VERSION)}"; then
-	WARN_ABOUT_SUPPORTED_VERSION="yes"
-fi
-if [[ ! $ASDF_INSTALL_VERSION =~ "weekly" ]] && awk "BEGIN {exit !($ASDF_INSTALL_VERSION < $MIN_SUPPORTED_VERSION)}"; then
-	WARN_ABOUT_SUPPORTED_VERSION="yes"
-fi
-if [ $WARN_ABOUT_SUPPORTED_VERSION == "yes" ]; then
-	printf "* WARNING asdf-%s was developed for versions \"%s\" or \"%s\" and later.\\n" "$TOOL_NAME" "$MIN_SUPPORTED_VERSION" "$MIN_SUPPORTED_WEEKLY_VERSION"
-	printf "          Versions before this are not guaranteed to work.\\n"
+	# Warn if user attempts to install a version(non-ref) that the plugin might not support
+	WARN_ABOUT_SUPPORTED_VERSION="no"
+	# validate weekly versions
+	if [[ $ASDF_INSTALL_VERSION =~ "weekly" ]] && awk "BEGIN {exit !($ASDF_INSTALL_VERSION < $MIN_SUPPORTED_WEEKLY_VERSION)}"; then
+		WARN_ABOUT_SUPPORTED_VERSION="yes"
+	fi
+	# validate non-weekly versions
+	if [[ ! $ASDF_INSTALL_VERSION =~ "weekly" ]] && awk "BEGIN {exit !($ASDF_INSTALL_VERSION < $MIN_SUPPORTED_VERSION)}"; then
+		WARN_ABOUT_SUPPORTED_VERSION="yes"
+	fi
+	if [ $WARN_ABOUT_SUPPORTED_VERSION == "yes" ]; then
+		printf "* WARNING asdf-%s was developed for versions \"%s\" or \"%s\" and later.\\n" "$TOOL_NAME" "$MIN_SUPPORTED_VERSION" "$MIN_SUPPORTED_WEEKLY_VERSION"
+		printf "          Versions before this are not guaranteed to work.\\n"
+	fi
 fi
 
 # download & install
@@ -49,7 +54,6 @@ fi
 	printf "* Symlinking binary to %s/bin/%s dir\\n" "$ASDF_INSTALL_PATH" "$TOOL_NAME"
 	mkdir -p "$ASDF_INSTALL_PATH/bin"
 	ln -s "$ASDF_INSTALL_PATH/$TOOL_NAME" "$ASDF_INSTALL_PATH/bin/$TOOL_NAME"
-	# mv "$ASDF_INSTALL_PATH/$TOOL_NAME" "$ASDF_INSTALL_PATH/bin/$TOOL_NAME"
 
 	printf "* Testing if %s@%s is executable\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
 	tool_cmd="$(printf "%s\\n" "$TOOL_TEST" | cut -d' ' -f1)"
