@@ -17,6 +17,7 @@ if [ "$ASDF_INSTALL_TYPE" != "version" ]; then
 	fail "asdf-$TOOL_NAME supports release installs only. See asdf list all $TOOL_NAME for a list of supported versions."
 fi
 
+echo "version to install: $ASDF_INSTALL_VERSION"
 if [ "$ASDF_INSTALL_VERSION" == "" ]; then
 	fail "asdf-$TOOL_NAME requires a version to be specified. See asdf list all $TOOL_NAME for a list of supported versions."
 fi
