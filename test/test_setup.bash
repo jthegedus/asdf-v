@@ -2,6 +2,10 @@
 
 set +u
 
+# Sourced script runs:
+# * set -euo pipefail
+# * sets: TOOL_NAME
+#
 # shellcheck source=lib/envs.bash
 . "$(dirname "$BATS_TEST_DIRNAME")"/lib/envs.bash
 
@@ -28,26 +32,11 @@ setup_asdf_dir() {
 }
 
 install_plugin() {
-	local plugin_name="v"
-	asdf plugin add v "$BATS_TEST_DIRNAME/.."
-	# local location="${1:-$ASDF_DIR}"
-	# echo "Installing $plugin_name to $location"
-	# mkdir -p "$location/plugins/$plugin_name"
-
-	# # Install current code for plugin
-	# # (not from remote plugin repo. not from local git. just raw source code as is right now)
-	# echo "Installing current code for plugin:"
-	# echo "$BATS_TEST_DIRNAME/../lib ==> $location/plugins/$plugin_name/lib"
-	# cp -r "$BATS_TEST_DIRNAME/../lib" "$location/plugins/$plugin_name/lib"
-	# cp -r "$BATS_TEST_DIRNAME/../bin" "$location/plugins/$plugin_name/bin"
-	# ls -la "$HOME/.asdf/plugins/$plugin_name"
-	# ls -la "$HOME/.asdf/plugins/$plugin_name/bin"
-	# ls -la "$HOME/.asdf/plugins/$plugin_name/lib"
+	asdf plugin add "$TOOL_NAME" "$BATS_TEST_DIRNAME/.."
 }
 
 clean_asdf_dir() {
-	local plugin_name="v"
-	asdf plugin remove "$plugin_name"
+	asdf plugin remove "$TOOL_NAME"
 
 	rm -rf "$BASE_DIR"
 	unset ASDF_DIR
