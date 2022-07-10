@@ -15,6 +15,7 @@ teardown() {
 	run asdf install v weekly.2022.26
 
 	[ "$?" -eq 0 ]
+	echo "$output"
 	[[ "$output" =~ "Downloading v@weekly.2022.26" ]]
 	[[ "$output" =~ "Building v@weekly.2022.26 from source" ]]
 	[[ "$output" =~ "V has been successfully built" ]]
@@ -27,6 +28,7 @@ teardown() {
 	run asdf install v 0.3
 
 	[ "$?" -eq 0 ]
+	echo "$output"
 	[[ "$output" =~ "Downloading v@0.3" ]]
 	[[ "$output" =~ "Building v@0.3 from source" ]]
 	[[ "$output" =~ "V has been successfully built" ]]
@@ -40,6 +42,7 @@ teardown() {
 	expected="* ERROR: asdf-v supports release installs only. See \"asdf list all v\" for a list of supported versions."
 	run asdf install v ref:some-commit
 
+	echo "$output"
 	[[ "$output" = "$expected" ]]
 }
 
@@ -48,6 +51,7 @@ teardown() {
 	run asdf install v 0
 
 	[ "$?" -eq 0 ]
+	echo "$output"
 	[[ "$output" = "$expected" ]]
 }
 
@@ -58,6 +62,7 @@ teardown() {
 	run asdf install v 0.2
 
 	[ "$?" -eq 0 ]
+	echo "$output"
 	[[ "$output" =~ "$expected1" ]]
 	[[ "$output" =~ "$expected2" ]]
 	[[ "$output" =~ "$expected3" ]]
@@ -70,6 +75,7 @@ teardown() {
 	run asdf install v weekly.2022.24
 
 	[ "$?" -eq 0 ]
+	echo "$output"
 	[[ "$output" =~ "$expected1" ]]
 	[[ "$output" =~ "$expected2" ]]
 	[[ "$output" =~ "$expected3" ]]

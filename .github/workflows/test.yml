@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  asdf_builtin_test:
+  asdf_plugin_test:
     strategy:
       matrix:
         os:
