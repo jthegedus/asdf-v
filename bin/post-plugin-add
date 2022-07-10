@@ -21,7 +21,7 @@ function check_dependencies() {
 
 	if [ "${#missing_dependencies[@]}" -ne 0 ]; then
 		printf "* Missing dependencies! These are hard requirements to install asdf-%s.\\n" "$TOOL_NAME"
-		printf "* ${missing_dependencies[@]}\\n"
+		printf "* %s\\n" "${missing_dependencies[@]}"
 		printf "* You should install the listed dependencies before continuing.\\n"
 	fi
 }

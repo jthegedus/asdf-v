@@ -21,7 +21,7 @@ fi
 
 # validate version(non-ref) is in list-all versions
 if [ "$ASDF_INSTALL_TYPE" == "version" ]; then
-	if ! printf "%s\\n" $(asdf list all v) | grep -q "^$ASDF_INSTALL_VERSION$"; then
+	if ! printf "%s\\n" "$(asdf list all v)" | grep -q "^$ASDF_INSTALL_VERSION$"; then
 		fail "version \"$ASDF_INSTALL_VERSION\" not supported. \"asdf list all $TOOL_NAME\" will list available versions."
 	fi
 
