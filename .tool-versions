@@ -1,4 +1,4 @@
-# use for formatting Markdown
+# Markdown Formatting (used in CI)
 deno 1.23.1
 # Shell Script Testing Framework
 bats 1.7.0

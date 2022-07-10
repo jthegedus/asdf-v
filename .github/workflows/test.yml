@@ -19,7 +19,7 @@ jobs:
         uses: asdf-vm/actions/plugin-test@v1
         with:
           command: v --help
-          GITHUB_API_TOKEN: ${{ github.token }}
+          github_token: ${{ github.token }}
   bats:
     strategy:
       matrix:
