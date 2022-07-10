@@ -39,6 +39,9 @@ install_plugin() {
 	echo "$BATS_TEST_DIRNAME/../lib ==> $location/plugins/$plugin_name/lib"
 	cp -r "$BATS_TEST_DIRNAME/../lib" "$location/plugins/$plugin_name/lib"
 	cp -r "$BATS_TEST_DIRNAME/../bin" "$location/plugins/$plugin_name/bin"
+	ls -la "$HOME/.asdf/plugins/$plugin_name"
+	ls -la "$HOME/.asdf/plugins/$plugin_name/bin"
+	ls -la "$HOME/.asdf/plugins/$plugin_name/lib"
 }
 
 clean_asdf_dir() {
