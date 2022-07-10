@@ -46,6 +46,9 @@ install_plugin() {
 }
 
 clean_asdf_dir() {
+	local plugin_name="v"
+	asdf plugin remove "$plugin_name"
+
 	rm -rf "$BASE_DIR"
 	unset ASDF_DIR
 	unset ASDF_DATA_DIR
