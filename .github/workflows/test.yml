@@ -34,7 +34,7 @@ jobs:
           fetch-depth: 0
       - name: Install bats
         run: |
-          git clone --depth 1 --branch "$(grep -Eo "^\\s*bats\\s*.*$" ".tool-versions" | cut -d' ' -f2-)" https://github.com/bats-core/bats-core.git $HOME/bats-core
+          git clone --depth 1 --branch "v$(grep -Eo "^\\s*bats\\s*.*$" ".tool-versions" | cut -d' ' -f2-)" https://github.com/bats-core/bats-core.git $HOME/bats-core
           echo "$HOME/bats-core/bin" >>"$GITHUB_PATH"
       - name: Run tests
         run: bats test
