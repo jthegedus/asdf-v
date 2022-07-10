@@ -32,8 +32,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Install asdf dependencies
-        uses: asdf-vm/actions/install@v1
+      - name: Install bats
+        run: |
+          export BATS_VERSION=$(grep -E "^\\s*bats\\s*=\\s*" ".tool-versions" | head | sed -e 's/^[^=]*= *//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+          git clone --depth 1 --branch "${BATS_VERSION}" https://github.com/bats-core/bats-core.git $HOME/bats-core
+          echo "$HOME/bats-core/bin" >>"$GITHUB_PATH"
       - name: Run tests
         run: bats test
         env:
