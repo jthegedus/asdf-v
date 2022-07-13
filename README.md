@@ -18,7 +18,7 @@ allowing you to pin `v` versions for each V project.
 
 Are tracked in [lib/dependencies.txt](lib/dependencies.txt) and checked on
 installation of plugin and `asdf install v *`. The core dependencies are:
-`bash`, `curl`, `tar`.
+`git`, `make`, ` curl`.
 
 # Install
 
