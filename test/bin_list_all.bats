@@ -20,4 +20,6 @@ teardown() {
 	[[ "$output" =~ "weekly.2022.26" ]]
 	# ommitted versions not present
 	[[ ! "$output" =~ "mytest" ]]
+	# ensure no versions prefixed with "v" as it should be stripped from GitHub URLs
+	[[ ! "$output" =~ "v0.*" ]]
 }
