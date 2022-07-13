@@ -15,10 +15,6 @@ jobs:
 
       - name: Install asdf dependencies
         uses: asdf-vm/actions/install@v1
-        with:
-          path: ~/.asdf/
-          key: ${{ runner.os }}-${{ hashFiles('**/.tool-versions') }}
-
       - name: Run ShellCheck
         run: scripts/shellcheck.bash
 
@@ -30,9 +26,6 @@ jobs:
 
       - name: Install asdf dependencies
         uses: asdf-vm/actions/install@v1
-        with:
-          path: ~/.asdf/
-          key: ${{ runner.os }}-${{ hashFiles('**/.tool-versions') }}
 
       - name: List file to shfmt
         run: shfmt -f .
