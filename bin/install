@@ -46,7 +46,7 @@ fi
 	else
 		# clone commit/ref/sha
 		git clone --quiet --depth 1 "$GH_REPO" "$ASDF_INSTALL_PATH" || fail "Could not download $GH_REPO @ $ASDF_INSTALL_VERSION"
-		git fetch --prune --update-head-ok origin "$ASDF_INSTALL_VERSION:$ASDF_INSTALL_VERSION"
+		git --git-dir "$ASDF_INSTALL_PATH/.git" --work-tree "$ASDF_INSTALL_PATH" fetch --prune --update-head-ok origin "$ASDF_INSTALL_VERSION:$ASDF_INSTALL_VERSION"
 		git --git-dir "$ASDF_INSTALL_PATH/.git" --work-tree "$ASDF_INSTALL_PATH" -c advice.detachedHead=false checkout "$ASDF_INSTALL_VERSION" || fail "Could not reach $ASDF_INSTALL_VERSION in Git tree"
 	fi
 	printf "* Downloaded to %s\\n" "$ASDF_INSTALL_PATH"
