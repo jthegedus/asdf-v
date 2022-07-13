@@ -37,13 +37,18 @@ teardown() {
 	[[ "$output" =~ "Success! v@0.3 is ready for use." ]]
 }
 
-# TODO(jthegedus): support ref installs. expected to fail for now
-@test "asdf install v ref:some-commit: errors as expected" {
-	expected="* ERROR: asdf-v supports release installs only. See \"asdf list all v\" for a list of supported versions."
-	run asdf install v ref:some-commit
+@test "asdf install v ref:ec75860: install at specific ref" {
+	expected=""
+	run asdf install v ref:ec75860
 
+	[ "$?" -eq 0 ]
 	echo "$output"
-	[[ "$output" = "$expected" ]]
+	[[ "$output" =~ "Downloading v@ec75860" ]]
+	[[ "$output" =~ "Building v@ec75860 from source" ]]
+	[[ "$output" =~ "V has been successfully built" ]]
+	[[ "$output" =~ "Symlinking binary to" ]]
+	[[ "$output" =~ "Testing if v@ec75860 is executable" ]]
+	[[ "$output" =~ "Success! v@ec75860 is ready for use." ]]
 }
 
 @test "asdf install v 0: errors as version is not in \"asdf list all v\"" {
