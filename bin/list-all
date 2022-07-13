@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+current_script_path=${BASH_SOURCE[0]}
+plugin_dir=$(dirname "$(dirname "$current_script_path")")
+
+# shellcheck source=../lib/envs.bash
+. "${plugin_dir}/lib/envs.bash"
+
+# output: returns a newline-separated list of git tags
+function list_github_tags() {
+	git ls-remote --tags --refs "$GH_REPO" |
+		grep -o 'refs/tags/.*' |
+		cut -d/ -f3- |
+		sed 's|^v||' |
+		grep -Ev "$VERSIONS_TO_OMIT" # remove matched Git Tags from results
+}
+
+# input:  accepts newline-separated list of semver versions
+# output: returns a sorted space-separated list of semver versions
+function sort_versions() {
+	sed 'h; s/[-]/./g; s/.p\([[:digit:]]\)/.z.\1/; s/$/.z/; G; s/\n/ /' |
+		LC_ALL=C sort -t. -k 1,1n -k 2,2n -k 3,3n -k 4,4n -k 5,5n |
+		awk '{print $2}'
+}
+
+list_github_tags | sort_versions | xargs echo # asdf_allow: echo

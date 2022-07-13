@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+current_script_path=${BASH_SOURCE[0]}
+plugin_dir=$(dirname "$(dirname "$current_script_path")")
+
+# shellcheck source=../lib/envs.bash
+. "${plugin_dir}/lib/envs.bash"
+
+function fail() {
+	printf "* ERROR: asdf-%s %s\\n" "$TOOL_NAME" "$*"
+	exit 1
+}
+
+# validate version(non-ref) is in list-all versions
+if [ "$ASDF_INSTALL_TYPE" == "version" ]; then
+	results="$(asdf list all v)"
+	if ! grep -q "^$ASDF_INSTALL_VERSION$" <<<"$results"; then
+		fail "version \"$ASDF_INSTALL_VERSION\" not supported. \"asdf list all $TOOL_NAME\" will list available versions."
+	fi
+
+	# Warn if user attempts to install a version(non-ref) that the plugin might not support
+	WARN_ABOUT_SUPPORTED_VERSION="no"
+	# validate weekly versions
+	if [[ $ASDF_INSTALL_VERSION =~ "weekly" ]] && awk "BEGIN {exit !($ASDF_INSTALL_VERSION < $MIN_SUPPORTED_WEEKLY_VERSION)}"; then
+		WARN_ABOUT_SUPPORTED_VERSION="yes"
+	fi
+	# validate non-weekly versions
+	if [[ ! $ASDF_INSTALL_VERSION =~ "weekly" ]] && awk "BEGIN {exit !($ASDF_INSTALL_VERSION < $MIN_SUPPORTED_VERSION)}"; then
+		WARN_ABOUT_SUPPORTED_VERSION="yes"
+	fi
+	if [ $WARN_ABOUT_SUPPORTED_VERSION == "yes" ]; then
+		printf "* WARNING asdf-%s was developed for versions \"%s\" or \"%s\" and later.\\n" "$TOOL_NAME" "$MIN_SUPPORTED_VERSION" "$MIN_SUPPORTED_WEEKLY_VERSION"
+		printf "          Versions before this are not guaranteed to work.\\n"
+	fi
+fi
+
+# download & install
+(
+	printf "* Downloading %s@%s\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
+	mkdir -p "$ASDF_INSTALL_PATH"
+	if [ "$ASDF_INSTALL_TYPE" == "version" ]; then
+		# clone branch/tag
+		git clone --quiet -c advice.detachedHead=false --depth 1 --branch "$ASDF_INSTALL_VERSION" "$GH_REPO" "$ASDF_INSTALL_PATH" || fail "Could not download $GH_REPO @ $ASDF_INSTALL_VERSION"
+	else
+		# clone commit/ref/sha
+		git clone --quiet "$GH_REPO" "$ASDF_INSTALL_PATH" || fail "Could not download $GH_REPO @ $ASDF_INSTALL_VERSION"
+		git --git-dir "$ASDF_INSTALL_PATH/.git" --work-tree "$ASDF_INSTALL_PATH" -c advice.detachedHead=false checkout "$ASDF_INSTALL_VERSION" || fail "Could not reach $ASDF_INSTALL_VERSION in Git tree"
+	fi
+	printf "* Downloaded to %s\\n" "$ASDF_INSTALL_PATH"
+
+	printf "* Building %s@%s from source\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
+	make --quiet -C "$ASDF_INSTALL_PATH" || fail "Could not compile $TOOL_NAME@$ASDF_INSTALL_VERSION"
+
+	printf "* Symlinking binary to %s/bin/%s dir\\n" "$ASDF_INSTALL_PATH" "$TOOL_NAME"
+	mkdir -p "$ASDF_INSTALL_PATH/bin"
+	ln -s "$ASDF_INSTALL_PATH/$TOOL_NAME" "$ASDF_INSTALL_PATH/bin/$TOOL_NAME"
+
+	printf "* Testing if %s@%s is executable\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
+	tool_cmd="$(printf "%s\\n" "$TOOL_TEST" | cut -d' ' -f1)"
+	test -x "$ASDF_INSTALL_PATH/bin/$tool_cmd" || fail "Expected $ASDF_INSTALL_PATH/bin/$tool_cmd to be executable."
+	printf "* Success! %s@%s is ready for use.\\n" "$TOOL_NAME" "$ASDF_INSTALL_VERSION"
+) || (
+	rm -rf "$ASDF_INSTALL_PATH"
+	fail "An error ocurred while installing $TOOL_NAME@$ASDF_INSTALL_VERSION"
+)

@@ -1,5 +1,7 @@
 #!/usr/bin/env bats
 
+load test_setup
+
 # NOTE: Test to ensure cross-compatibility.
 #       Taken from asdf core repo test file of the same name.
 #       It may be out of date, so check periodically to see if there are new additions to banned_commands or banned_commands_regex.
@@ -52,6 +54,14 @@ banned_commands_regex=(
 	'\basdf '
 )
 
+setup() {
+	setup_asdf_dir
+}
+
+teardown() {
+	clean_asdf_dir
+}
+
 @test "banned commands are not found in source code" {
 	# Assert command is not used in the lib and bin dirs
 	# or expect an explicit comment at end of line, allowing it.
@@ -59,7 +69,7 @@ banned_commands_regex=(
 	# followed by an underscore (indicating it's a variable and not a
 	# command).
 	for cmd in "${banned_commands[@]}"; do
-		run bash -c "grep -nHR --include \*.bash --include \*.sh '$cmd' lib bin scripts \
+		run bash -c "grep -nHR '$cmd' lib bin scripts \
 		| grep -v '#.*$cmd' \
 		| grep -v '\".*$cmd.*\"' \
 		| grep -v '${cmd}_' \
@@ -76,7 +86,7 @@ banned_commands_regex=(
 	done
 
 	for cmd in "${banned_commands_regex[@]}"; do
-		run bash -c "grep -nHRE --include \*.bash --include \*.sh '$cmd' lib bin scripts \
+		run bash -c "grep -nHRE '$cmd' lib bin scripts \
 		| grep -v '#.*$cmd' \
 		| grep -v '\".*$cmd.*\"' \
 		| grep -v '${cmd}_' \

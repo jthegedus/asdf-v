@@ -7,8 +7,7 @@ on:
   pull_request:
 
 jobs:
-  plugin_test:
-    name: asdf plugin test
+  asdf_plugin_test:
     strategy:
       matrix:
         os:
@@ -19,4 +18,26 @@ jobs:
       - name: asdf plugin test
         uses: asdf-vm/actions/plugin-test@v1
         with:
-          command: asdf --help
+          command: v --help
+          github_token: ${{ github.token }}
+  bats:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Install asdf dependencies
+        uses: asdf-vm/actions/install@v1
+        with:
+          path: ~/.asdf/
+          key: ${{ runner.os }}-${{ hashFiles('**/.tool-versions') }}
+      - name: Run tests
+        run: bats test
+        env:
+          GITHUB_API_TOKEN: ${{ github.token }}

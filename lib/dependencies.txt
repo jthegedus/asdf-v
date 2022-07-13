@@ -1,0 +1,11 @@
+mkdir
+git
+make
+ln
+rm
+curl
+sed
+grep
+sort
+cut
+awk
