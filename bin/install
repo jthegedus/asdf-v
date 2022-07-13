@@ -42,11 +42,11 @@ fi
 	mkdir -p "$ASDF_INSTALL_PATH"
 	if [ "$ASDF_INSTALL_TYPE" == "version" ]; then
 		# clone branch/tag
-		git --quiet -c advice.detachedHead=false clone --depth 1 --branch "$ASDF_INSTALL_VERSION" "$GH_REPO" "$ASDF_INSTALL_PATH" || fail "Could not download $GH_REPO @ $ASDF_INSTALL_VERSION"
+		git clone --quiet -c advice.detachedHead=false --depth 1 --branch "$ASDF_INSTALL_VERSION" "$GH_REPO" "$ASDF_INSTALL_PATH" || fail "Could not download $GH_REPO @ $ASDF_INSTALL_VERSION"
 	else
 		# clone commit/ref/sha
-		git --quiet clone --depth 1 "$GH_REPO" "$ASDF_INSTALL_PATH" || fail "Could not download $GH_REPO @ $ASDF_INSTALL_VERSION"
-		git --quiet --git-dir "$ASDF_INSTALL_PATH/.git" --work-tree "$ASDF_INSTALL_PATH" -c advice.detachedHead=false checkout "$ASDF_INSTALL_VERSION" || fail "Could not reach $ASDF_INSTALL_VERSION in Git tree"
+		git clone --quiet --depth 1 "$GH_REPO" "$ASDF_INSTALL_PATH" || fail "Could not download $GH_REPO @ $ASDF_INSTALL_VERSION"
+		git --git-dir "$ASDF_INSTALL_PATH/.git" --work-tree "$ASDF_INSTALL_PATH" -c advice.detachedHead=false checkout "$ASDF_INSTALL_VERSION" || fail "Could not reach $ASDF_INSTALL_VERSION in Git tree"
 	fi
 	printf "* Downloaded to %s\\n" "$ASDF_INSTALL_PATH"
 
