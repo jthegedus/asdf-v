@@ -45,7 +45,7 @@ fi
 		git clone --quiet -c advice.detachedHead=false --depth 1 --branch "$ASDF_INSTALL_VERSION" "$GH_REPO" "$ASDF_INSTALL_PATH" || fail "Could not download $GH_REPO @ $ASDF_INSTALL_VERSION"
 	else
 		# clone commit/ref/sha
-		git clone --quiet --depth 1 "$GH_REPO" "$ASDF_INSTALL_PATH" || fail "Could not download $GH_REPO @ $ASDF_INSTALL_VERSION"
+		git clone --quiet "$GH_REPO" "$ASDF_INSTALL_PATH" || fail "Could not download $GH_REPO @ $ASDF_INSTALL_VERSION"
 		git --git-dir "$ASDF_INSTALL_PATH/.git" --work-tree "$ASDF_INSTALL_PATH" fetch --prune --update-head-ok origin "$ASDF_INSTALL_VERSION:$ASDF_INSTALL_VERSION"
 		git --git-dir "$ASDF_INSTALL_PATH/.git" --work-tree "$ASDF_INSTALL_PATH" -c advice.detachedHead=false checkout "$ASDF_INSTALL_VERSION" || fail "Could not reach $ASDF_INSTALL_VERSION in Git tree"
 	fi
