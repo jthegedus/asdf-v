@@ -8,4 +8,5 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 # shellcheck source=../lib/envs.bash
 . "${plugin_dir}/lib/envs.bash"
 
-printf "%s\\n%s\\n" "Repo: $GH_REPO" "Documentation: $DOCS_SITE"
+printf "%s\\t%s\\n" "Git Repository:" "$GH_REPO"
+printf "%s\\t%s\\n" "Documentation:" "$DOCS_SITE"
