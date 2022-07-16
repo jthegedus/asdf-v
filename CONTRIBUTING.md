@@ -16,7 +16,8 @@
 - `bin/*`: asdf plugin functions
 - `lib/dependencies.txt`: list of dependencies required for this plugin to
   execute and install the tool as well as the tool's dependencies.
-- `lib/envs.bash`: environment variables for install, use and testing of the plugin 
+- `lib/envs.bash`: environment variables for install, use and testing of the
+  plugin
 
 ## Testing Locally
 
@@ -30,7 +31,8 @@ asdf install v 0.3
 
 ### asdf tests
 
-Two types of testing are used. Bats tests under the `test/` dir and asdf specific integration tests with `asdf plugin test`.
+Two types of testing are used. Bats tests under the `test/` dir and asdf
+specific integration tests with `asdf plugin test`.
 
 ```shell
 asdf plugin test <plugin-name> <plugin-url> [--asdf-tool-version <version>] [--asdf-plugin-gitref <git-ref>] [test-command*]
