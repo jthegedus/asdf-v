@@ -3,6 +3,7 @@
 set -euo pipefail
 
 GH_REPO="https://github.com/vlang/v"
+DOCS_SITE="https://vlang.io"
 TOOL_NAME="v"
 TOOL_TEST="v --help"
 MIN_SUPPORTED_VERSION="0.3"
