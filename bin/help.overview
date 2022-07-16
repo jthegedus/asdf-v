@@ -8,5 +8,4 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 # shellcheck source=../lib/envs.bash
 . "${plugin_dir}/lib/envs.bash"
 
-printf "%s\\n" "Manage your https://vlang.io versions per project. The minimum supported V versions are: $MIN_SUPPORTED_VERSION or
-$MIN_SUPPORTED_WEEKLY_VERSION"
+printf "%s\\n" "Manage your https://vlang.io versions per project. The minimum supported V versions are $MIN_SUPPORTED_VERSION or $MIN_SUPPORTED_WEEKLY_VERSION"
