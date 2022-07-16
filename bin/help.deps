@@ -8,4 +8,6 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 # shellcheck source=../lib/envs.bash
 . "${plugin_dir}/lib/envs.bash"
 
+printf "%s\\n" "Dependencies:"
 cat "$plugin_dir/lib/dependencies.txt"
+printf "\\n"
