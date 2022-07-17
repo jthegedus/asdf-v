@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/jthegedus/asdf-v/compare/v1.1.0...v1.1.1) (2022-07-17)
+
+
+### Bug Fixes
+
+* latest-stable cmd filter to align w list-all ([#6](https://github.com/jthegedus/asdf-v/issues/6)) ([77369ee](https://github.com/jthegedus/asdf-v/commit/77369ee23b6a0e8e49a549649babd9a1a226cd8d))
+
 ## [1.1.0](https://github.com/jthegedus/asdf-v/compare/v1.0.0...v1.1.0) (2022-07-16)
 
 
