@@ -11,44 +11,44 @@ teardown() {
 	clean_asdf_dir
 }
 
-@test "asdf install v weekly.2022.26: installs weekly release" {
-	run asdf install v weekly.2022.26
+@test "asdf install v weekly.2022.43: installs weekly release" {
+	run asdf install v weekly.2022.43
 
 	[ "$?" -eq 0 ]
 	echo "$output"
-	[[ "$output" =~ "Downloading v@weekly.2022.26" ]]
-	[[ "$output" =~ "Building v@weekly.2022.26 from source" ]]
+	[[ "$output" =~ "Downloading v@weekly.2022.43" ]]
+	[[ "$output" =~ "Building v@weekly.2022.43 from source" ]]
 	[[ "$output" =~ "V has been successfully built" ]]
 	[[ "$output" =~ "Symlinking binary to" ]]
-	[[ "$output" =~ "Testing if v@weekly.2022.26 is executable" ]]
-	[[ "$output" =~ "Success! v@weekly.2022.26 is ready for use." ]]
+	[[ "$output" =~ "Testing if v@weekly.2022.43 is executable" ]]
+	[[ "$output" =~ "Success! v@weekly.2022.43 is ready for use." ]]
 }
 
-@test "asdf install v 0.3: installs point release" {
-	run asdf install v 0.3
+@test "asdf install v 0.3.1: installs point release" {
+	run asdf install v 0.3.1
 
 	[ "$?" -eq 0 ]
 	echo "$output"
-	[[ "$output" =~ "Downloading v@0.3" ]]
-	[[ "$output" =~ "Building v@0.3 from source" ]]
+	[[ "$output" =~ "Downloading v@0.3.1" ]]
+	[[ "$output" =~ "Building v@0.3.1 from source" ]]
 	[[ "$output" =~ "V has been successfully built" ]]
 	[[ "$output" =~ "Symlinking binary to" ]]
-	[[ "$output" =~ "Testing if v@0.3 is executable" ]]
-	[[ "$output" =~ "Success! v@0.3 is ready for use." ]]
+	[[ "$output" =~ "Testing if v@0.3.1 is executable" ]]
+	[[ "$output" =~ "Success! v@0.3.1 is ready for use." ]]
 }
 
-@test "asdf install v ref:ec75860: install at specific ref" {
+@test "asdf install v ref:779cc33: install at specific ref" {
 	expected=""
-	run asdf install v ref:ec75860
+	run asdf install v ref:779cc33
 
 	[ "$?" -eq 0 ]
 	echo "$output"
-	[[ "$output" =~ "Downloading v@ec75860" ]]
-	[[ "$output" =~ "Building v@ec75860 from source" ]]
+	[[ "$output" =~ "Downloading v@779cc33" ]]
+	[[ "$output" =~ "Building v@779cc33 from source" ]]
 	[[ "$output" =~ "V has been successfully built" ]]
 	[[ "$output" =~ "Symlinking binary to" ]]
-	[[ "$output" =~ "Testing if v@ec75860 is executable" ]]
-	[[ "$output" =~ "Success! v@ec75860 is ready for use." ]]
+	[[ "$output" =~ "Testing if v@779cc33 is executable" ]]
+	[[ "$output" =~ "Success! v@779cc33 is ready for use." ]]
 }
 
 @test "asdf install v 0: errors as version is not in \"asdf list all v\"" {
