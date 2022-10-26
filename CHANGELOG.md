@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/jthegedus/asdf-v/compare/v1.1.1...v1.1.2) (2022-10-26)
+
+
+### Bug Fixes
+
+* bump versions being tested ([#12](https://github.com/jthegedus/asdf-v/issues/12)) ([4bbb640](https://github.com/jthegedus/asdf-v/commit/4bbb640b3243eb8c51fcddf2aae592268e2928ce))
+
 ## [1.1.1](https://github.com/jthegedus/asdf-v/compare/v1.1.0...v1.1.1) (2022-07-17)
 
 
