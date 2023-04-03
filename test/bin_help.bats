@@ -12,7 +12,7 @@ teardown() {
 }
 
 @test "asdf help ${TOOL_NAME}" {
-	run asdf help ${TOOL_NAME}
+	run asdf help "${TOOL_NAME}"
 
 	[ "$?" -eq 0 ]
 	echo "$output"

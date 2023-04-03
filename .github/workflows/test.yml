@@ -15,8 +15,7 @@ jobs:
           - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - name: asdf plugin test
-        uses: asdf-vm/actions/plugin-test@v2
+      - uses: asdf-vm/actions/plugin-test@v2
         with:
           command: v --help
           github_token: ${{ github.token }}
@@ -28,13 +27,10 @@ jobs:
           - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Install asdf dependencies
-        uses: asdf-vm/actions/install@v2
-      - name: Run tests
-        run: bats test
+      - uses: asdf-vm/actions/install@v2
+      - run: bats test
         env:
           GITHUB_API_TOKEN: ${{ github.token }}

@@ -7,29 +7,18 @@ on:
   pull_request:
 
 jobs:
-  shellcheck:
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - uses: asdf-vm/actions/install@v2
+      - run: scripts/lint.bash
 
-      - name: Install asdf dependencies
-        uses: asdf-vm/actions/install@v2
-      - name: Run ShellCheck
-        run: scripts/shellcheck.bash
-
-  shellfmt:
+  actionlint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install asdf dependencies
-        uses: asdf-vm/actions/install@v2
-
-      - name: List file to shfmt
-        run: shfmt -f .
-
-      - name: Run shfmt
-        run: scripts/shfmt.bash
-
+      - uses: actions/checkout@v3
+      - name: Check workflow files
+        uses: docker://rhysd/actionlint:1.6.23
+        with:
+          args: -color
