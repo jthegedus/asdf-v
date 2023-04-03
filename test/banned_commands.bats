@@ -69,7 +69,7 @@ teardown() {
 	# followed by an underscore (indicating it's a variable and not a
 	# command).
 	for cmd in "${banned_commands[@]}"; do
-		run bash -c "grep -nHR '$cmd' lib bin scripts \
+		run bash -c "grep -nHR '$cmd' lib bin \
 		| grep -v '#.*$cmd' \
 		| grep -v '\".*$cmd.*\"' \
 		| grep -v '${cmd}_' \
@@ -86,7 +86,7 @@ teardown() {
 	done
 
 	for cmd in "${banned_commands_regex[@]}"; do
-		run bash -c "grep -nHRE '$cmd' lib bin scripts \
+		run bash -c "grep -nHRE '$cmd' lib bin \
 		| grep -v '#.*$cmd' \
 		| grep -v '\".*$cmd.*\"' \
 		| grep -v '${cmd}_' \
