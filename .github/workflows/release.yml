@@ -13,3 +13,9 @@ jobs:
         name: Create Release
         with:
           release-type: simple
+          changelog-types: |
+            [
+              { "type": "feat", "section": "Features", "hidden": false },
+              { "type": "fix", "section": "Patches", "hidden": false },
+              { "type": "docs", "section": "Documentation", "hidden": false }
+            ]
