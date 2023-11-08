@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/jthegedus/asdf-v/compare/v1.1.2...v1.1.3) (2023-11-08)
+
+
+### Patches
+
+* use single lint script & fix errors ([3355505](https://github.com/jthegedus/asdf-v/commit/33555056a8aa5939b9db1f30e84b2b5ce9684e46))
+
 ## [1.1.2](https://github.com/jthegedus/asdf-v/compare/v1.1.1...v1.1.2) (2022-10-26)
 
 
